@@ -1,0 +1,10 @@
+.vscode
+
+
+*.db
+*.sln
+
+*/bin/
+*/obj
+.fake
+.ionide
