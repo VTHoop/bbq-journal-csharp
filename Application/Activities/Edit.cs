@@ -1,22 +1,25 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain;
 using MediatR;
 using Persistance;
 
-namespace Application.Activities
+namespace Application.Journals
 {
     public class Edit
     {
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public string Category { get; set; }
-            public DateTime? Date { get; set; }
-            public string City { get; set; }
-            public string Venue { get; set; }
+            public string Name { get; set; }
+            public string Notes { get; set; }
+            public string Grill { get; set; }
+            public string Meat { get; set; }
+            public string Cut { get; set; }
+            public DateTime StartTime { get; set; }
+            public DateTime EndTime { get; set; }
+            public int Rating { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -29,15 +32,23 @@ namespace Application.Activities
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activity = await _context.Activities.FindAsync(request.Id);
-                if (activity == null) throw new Exception("Activity not found");
+                var journal = await _context.Journals.FindAsync(request.Id);
+                if (journal == null) throw new Exception("Journal not found");
 
-                activity.Title = request.Title ?? activity.Title;
-                activity.Description = request.Description ?? activity.Description;
-                activity.Category = request.Category ?? activity.Category;
-                activity.Date = request.Date ?? activity.Date;
-                activity.City = request.City ?? activity.City;
-                activity.Venue = request.Venue ?? activity.Venue;
+                Meat meat;
+                Grill grill;
+                Enum.TryParse(request.Grill, out grill);
+                Enum.TryParse(request.Meat, out meat);
+
+                journal.Id = request.Id;
+                journal.Name = request.Name;
+                journal.Notes = request.Notes;
+                journal.Meat = meat;
+                journal.Cut = request.Cut;
+                journal.StartTime = request.StartTime;
+                journal.EndTime = request.EndTime;
+                journal.Rating = request.Rating;
+                journal.Grill = grill;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

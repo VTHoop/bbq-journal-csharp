@@ -1,28 +1,17 @@
-import React, { useContext } from "react";
-import { Menu, Container, Button } from "semantic-ui-react";
-import ActivityStore from "../../app/stores/activitiesStore";
+import React from "react";
 
-const NavBar = () => {
-  const activityStore = useContext(ActivityStore);
-
+export const NavBar = () => {
   return (
-    <Menu fixed="top" inverted>
-      <Container>
-        <Menu.Item>
-          <img src="/assets/logo.png" alt="logo" />
-          Reactivities
-        </Menu.Item>
-        <Menu.Item name="Activities" />
-        <Menu.Item>
-          <Button
-            onClick={activityStore.openCreateForm}
-            positive
-            content="Create Activity"
-          />
-        </Menu.Item>
-      </Container>
-    </Menu>
+    <nav
+      className="navbar is-spaced has-shadow is-primary"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div className="container">
+        <div className="navbar-brand">
+          <h1 className="title">BBQ Journal</h1>
+        </div>
+      </div>
+    </nav>
   );
 };
-
-export default NavBar;

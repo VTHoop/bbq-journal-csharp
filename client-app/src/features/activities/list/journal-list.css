@@ -1,0 +1,12 @@
+.rating {
+  display: flex;
+  align-items: center;
+}
+
+.rating > * {
+  margin-right: 0.35rem;
+}
+
+.journal__card {
+  font-size: 80%;
+}

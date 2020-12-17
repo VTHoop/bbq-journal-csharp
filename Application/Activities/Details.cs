@@ -1,20 +1,21 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.DTOs;
 using Domain;
 using MediatR;
 using Persistance;
 
-namespace Application.Activities
+namespace Application.Journals
 {
     public class Details
     {
-        public class Query : IRequest<Activity>
+        public class Query : IRequest<JournalDto>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Activity>
+        public class Handler : IRequestHandler<Query, JournalDto>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -23,10 +24,20 @@ namespace Application.Activities
 
             }
 
-            public async Task<Activity> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<JournalDto> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activity = await _context.Activities.FindAsync(request.Id);
-                return activity;
+                var Journal = await _context.Journals.FindAsync(request.Id);
+                return new JournalDto {
+                    Id = Journal.Id,
+                    Name = Journal.Name,
+                    Notes = Journal.Notes,
+                    Grill = Journal.Grill.ToString(),
+                    Meat = Journal.Meat.ToString(),
+                    Cut = Journal.Cut,
+                    StartTime = Journal.StartTime,
+                    EndTime = Journal.EndTime,
+                    Rating = Journal.Rating
+                };
             }
         }
     }

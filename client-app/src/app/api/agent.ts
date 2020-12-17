@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Activity } from "../models/Activities";
+import { Journal } from "../models/Journal";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -20,15 +20,15 @@ const requests = {
     axios.delete(url).then(sleep(1000)).then(responseBody),
 };
 
-const Activities = {
-  list: (): Promise<Activity[]> => requests.get("/activities"),
-  details: (id: string): Promise<Activity> => requests.get(`/acivities/${id}`),
-  create: (activity: Activity) => requests.post("/acitivites", activity),
-  update: (activity: Activity) =>
-    requests.put(`/acivities${activity.id}`, activity),
-  delete: (id: string) => requests.delete(`/acivities${id}`),
+const Journals = {
+  list: (): Promise<Journal[]> => requests.get("/journals"),
+  details: (id: string): Promise<Journal> => requests.get(`/journals/${id}`),
+  create: (Journal: Journal) => requests.post("/journals", Journal),
+  update: (Journal: Journal) =>
+    requests.put(`/journals${Journal.id}`, Journal),
+  delete: (id: string) => requests.delete(`/journals${id}`),
 };
 
 export default {
-  Activities,
+  Journals,
 };

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.Activities;
-using Domain;
+using Application.DTOs;
+using Application.Journals;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,22 +10,22 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ActivitiesController : ControllerBase
+    public class JournalsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public ActivitiesController(IMediator mediator)
+        public JournalsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Activity>>> List()
+        public async Task<ActionResult<List<JournalDto>>> List()
         {
             return await _mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Activity>> Details(Guid id)
+        public async Task<ActionResult<JournalDto>> Details(Guid id)
         {
             return await _mediator.Send(new Details.Query { Id = id });
         }

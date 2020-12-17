@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Persistance;
 
-namespace Application.Activities
+namespace Application.Journals
 {
     public class Delete
     {
@@ -23,10 +23,10 @@ namespace Application.Activities
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activity = await _context.Activities.FindAsync(request.Id);
-                if (activity == null) throw new Exception("Activity not found");
+                var Journal = await _context.Journals.FindAsync(request.Id);
+                if (Journal == null) throw new Exception("Journal not found");
 
-                _context.Remove(activity);
+                _context.Remove(Journal);
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Unit.Value;
